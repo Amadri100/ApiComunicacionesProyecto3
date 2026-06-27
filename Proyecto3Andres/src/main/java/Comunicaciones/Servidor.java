@@ -22,12 +22,7 @@ import java.util.HashMap;
 //
 //
 //
-//
-//
 //===================================================================
-
-
-
 public class Servidor {
     private final int port = 33332;
     
@@ -203,10 +198,11 @@ public class Servidor {
                             this.numeroSegunBase.put(codigo, indice+1);
                         }
                         identidad += String.valueOf(indice);
-                        Observable observable = new Observable(this, msg1.getDatos(), identidad, msg1.getNombre());
+                        Observable observable = new Observable(this, msg1.getDatos(), identidad);
                         ObserverAdmin observer1 = new ObserverAdmin(conexion.getIdentificador(), observable);
                         this.esDueñoDe.put(conexion.getIdentificador(), identidad);
                         observable.agregarObservable(observer1);
+                        observable.notificarPrioridad(); 
                     }
                     else if (esDueñoDeAlgo){ //destruir
                         codigo = msg1.getIDObjetivo(); //Esta vez es el codigo completo

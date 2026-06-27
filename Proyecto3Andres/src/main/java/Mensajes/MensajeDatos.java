@@ -12,7 +12,7 @@ public class MensajeDatos extends Mensaje{
     }
 
     public boolean permitidoPorUsuario() {
-        return this.datosDelMensaje.getPeticion() == null;
+        return this.datosDelMensaje.getPeticion() != null;
     }
     
     public Datos getDatosDelMensaje() {

@@ -4,6 +4,7 @@
  */
 package Subastas;
 
+import ImagenSerializable.ImagenSerializable;
 import java.io.Serializable;
 
 /**
@@ -13,5 +14,39 @@ import java.io.Serializable;
 public class Producto implements Serializable {
     private int precioFinal;
     private int precioInicial;
-    private int precioActual;
+    private String descripcion;
+    private ImagenSerializable imagen;
+
+    public Producto(int precioFinal, int precioInicial, ImagenSerializable imagen) {
+        this.precioFinal = precioFinal;
+        this.precioInicial = precioInicial;
+        this.imagen = imagen;
+    }
+    
+    public int getPrecioFinal() {
+        return precioFinal;
+    }
+
+    public void setPrecioFinal(int precioFinal) {
+        this.precioFinal = precioFinal;
+    }
+
+    public int getPrecioInicial() {
+        return precioInicial;
+    }
+
+    public void setPrecioInicial(int precioInicial) {
+        this.precioInicial = precioInicial;
+    }
+
+    public ImagenSerializable getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(ImagenSerializable imagen) {
+        this.imagen = imagen;
+    }
+    
+    
+    
 }

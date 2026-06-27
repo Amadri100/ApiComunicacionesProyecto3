@@ -13,21 +13,21 @@ public class Observable implements Serializable {
     private ArrayList<IObserver> observables;
     private Datos datos = null;
 
-    public Observable(Servidor servidor, Datos datos, String IdEvento, String nombre) {
+   /* public Observable(Servidor servidor, Datos datos, String IdEvento, String nombre) {
         this.servidor = servidor;
         this.observables = new ArrayList<>();
         this.datos = datos;
         this.IdEvento = IdEvento;
         this.datos.setIdentificador(IdEvento);
         this.nombre = nombre;
-    }
+    }*/
     public Observable(Servidor servidor, Datos datos, String IdEvento) {
         this.servidor = servidor;
         this.observables = new ArrayList<>();
         this.datos = datos;
         this.IdEvento = IdEvento;
         this.datos.setIdentificador(IdEvento);
-        this.nombre = "NAN";
+        this.nombre = datos.getNombre();
     }
     
     public void terminar() {

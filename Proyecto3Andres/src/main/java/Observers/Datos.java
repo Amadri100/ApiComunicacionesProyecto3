@@ -8,15 +8,18 @@ import java.io.Serializable;
 public class Datos implements Serializable{
     private String Identificador;
     private Peticion peticion;
+    private String nombre;
     private boolean enCurso = true; //Indica si se ejecuta: false -> ya no existe
 
-    public Datos(String Identificador, Peticion peticion) {
+    public Datos(String Identificador, Peticion peticion, String nombre) {
         this.Identificador = Identificador;
         this.peticion = peticion;
+        this.nombre = nombre;
     }
-    public Datos(String Identificador) {
+    public Datos(String Identificador, String nombre) {
         this.Identificador = Identificador;
         this.peticion = null;
+        this.nombre = nombre;
     }
 
     public String getIdentificador() {
@@ -43,4 +46,14 @@ public class Datos implements Serializable{
         this.enCurso = enCurso;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    
+    
 }
