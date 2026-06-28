@@ -29,12 +29,13 @@ public class DatosSubasta extends Datos {
     private int limiteActual;
     private String postor = "NA";
 
-    public DatosSubasta(Producto producto) {
-        super("NA", null);
+    public DatosSubasta(Producto producto, String nombre) {
+        super("NA", nombre);
         this.producto = producto;
         this.historial = "";
         this.estatus = estadoSubasta.CERRADA;
         this.limiteActual = this.producto.getPrecioInicial();
+        this.obtenerTiempos();
     }
     
     private void obtenerTiempos() {

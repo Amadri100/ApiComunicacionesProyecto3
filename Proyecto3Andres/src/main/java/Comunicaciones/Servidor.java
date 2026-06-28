@@ -19,9 +19,6 @@ import java.util.HashMap;
 //Nombre observador = US
 //Nombre enEspera = ES
 //
-//
-//
-//
 //===================================================================
 public class Servidor {
     private final int port = 33332;
@@ -65,6 +62,7 @@ public class Servidor {
         this.listaObservables = new HashMap<>();
         this.buscarConexiones = new ThreadConexiones(this);
         this.threadMandadoMensajes = new ThreadMensajeAMandar(this);
+        this.buscarConexiones.start();  
         this.threadMandadoMensajes.start();
     }
 
@@ -152,6 +150,7 @@ public class Servidor {
         boolean encontrado = false;
         int indice = -1;
         String identidad = "";
+        System.out.println("Nombre: " + conexion.getIdentificador() + " p-");
         switch (msg.getTipo()) {
             case ConectarseServidor:
                 MensajeConexion msg0 = (MensajeConexion)msg;
@@ -178,6 +177,7 @@ public class Servidor {
                     }
                 }
                 if (encontrado) {
+                    System.out.println("Se manda mensaje de notificacion");
                     MensajeNotificacion msgNoti = new MensajeNotificacion(identidad);
                     conexion.mandarMensaje(msgNoti);
                 }
@@ -251,6 +251,7 @@ public class Servidor {
     }
 
     public void agregarEspera(Socket socket, int numConexion) {
+        System.out.println("Adicion de miembro...");
         ThreadConexion conexion = new ThreadConexion(socket, this);
         conexion.cambiarID("ES" + numConexion);
         this.conexionesEnEspera.add(conexion);

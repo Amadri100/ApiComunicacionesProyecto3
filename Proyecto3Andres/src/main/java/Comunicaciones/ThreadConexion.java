@@ -17,6 +17,7 @@ public class ThreadConexion extends Thread{
     private boolean isRunning = true;
 
     public ThreadConexion(Socket socket, Servidor servidor) {
+        
         this.socket = socket;
         this.servidor = servidor;
         try {
@@ -30,6 +31,7 @@ public class ThreadConexion extends Thread{
         } catch (IOException ex) {
             servidor.getInterfaz().escribirTexto("ERROR: " + ex.getMessage());
         }
+        System.out.println("Nace una nueva conexion");
     }
     
     public void limpiar() {
@@ -49,7 +51,7 @@ public class ThreadConexion extends Thread{
         while (isRunning) {
             try {
                 Mensaje mensaje = (Mensaje) entrada.readObject();
-
+                System.out.println("Se leyo yn mensaje");
                 servidor.recibirMensaje(mensaje, this);
             }
             catch (Exception e) {

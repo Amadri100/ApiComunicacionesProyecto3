@@ -5,6 +5,8 @@ import Mensajes.*;
 import Observers.Peticion;
 import Subastas.DatosSubasta;
 import Subastas.PeticionSubasta;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -16,6 +18,7 @@ public class DatosSubastador {
     private String identificadorUsuario = "NA";
     private DatosSubasta datos = null;
     private ThreadSubastador servidor = null;
+    private threadReloj reloj = null;
     
     
     public DatosSubastador(InterfazSubastador interfaz) {
@@ -23,9 +26,11 @@ public class DatosSubastador {
     }
     
     public boolean conectar() {
-        if (servidor != null){
+        if (servidor == null){
+            System.out.println("ENT");
             try {
                 this.servidor = new ThreadSubastador(this);
+                System.out.println("AQUI");
                 return true;
             }
             catch (Exception e) {
@@ -37,10 +42,78 @@ public class DatosSubastador {
         return false;
     }
     
+    public String textoFinal() {
+        if (!this.datos.getPostor().equals("NA")) {
+            return "El ganador es el usuario: " + this.datos.getPostor() +" con: $" + this.datos.getLimiteActual();
+        }
+        return "No hay ganador";
+    }
+    
+    public void cargarDatos() {
+        PanelSubasta panelSub =  (PanelSubasta) this.interfaz.getPanelEspecifico(InterfazSubastador.NombrePanelesST.Subasta);
+        panelSub.getLblNombre().setText(this.datos.getNombre());
+        panelSub.getLblDescripcion().setText(this.datos.getProducto().getDescripcion());
+        String estado = "";
+        switch (this.datos.getEstatus()) {
+            case CANCELADA:
+                estado += "Cancelado";
+                break;
+            case CERRADA:
+                estado += "Cerrado";
+                break;
+            case VENDIDA:
+                estado += "Vendido";
+                break;
+        }
+        panelSub.getLblEstatus().setText(estado);
+        String fecha = this.datos.getFinalCronometro().
+                atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        panelSub.getLblFecha().setText(fecha);
+        panelSub.getTaBitacora().setText(this.datos.getHistorial());
+        panelSub.getLblPrecioActual().setText("$"+this.datos.getLimiteActual());
+        panelSub.mostrarImagen(this.getDatos().getProducto().getImagen());
+    }
+    
+    public void actualizarDatos() {
+        PanelSubasta panelSub =  (PanelSubasta) this.interfaz.getPanelEspecifico(InterfazSubastador.NombrePanelesST.Subasta);
+        String estado = "";
+        switch (this.datos.getEstatus()) {
+            case CANCELADA:
+                estado += "Cancelado";
+                break;
+            case CERRADA:
+                estado += "Cerrado";
+                break;
+            case VENDIDA:
+                estado += "Vendido";
+                break;
+        }
+        panelSub.getLblEstatus().setText(estado);
+        panelSub.getTaBitacora().setText(this.datos.getHistorial());
+        panelSub.getLblPrecioActual().setText("$"+this.datos.getLimiteActual());
+    }
+    
+    public void iniciarSubasta(DatosSubasta datos) {
+        this.datos = datos;
+        MensajeObservables msg = new MensajeObservables(this.identificadorUsuario, this.baseCodigo, this.datos.getNombre(), true, this.datos);
+        this.servidor.mandarMensaje(msg);
+        this.reloj = new threadReloj(this);
+        this.reloj.start();
+        cargarDatos();
+    }
+    
+    public void terminarSubasta() {
+        this.datos.setEstatus(DatosSubasta.estadoSubasta.VENDIDA);
+        MensajeObservables msg = new MensajeObservables(this.identificadorUsuario, this.datos.getIdentificador(), this.datos.getNombre(), false);
+        this.servidor.mandarMensaje(msg);
+        ((PanelSubasta)this.interfaz.getPanelEspecifico(InterfazSubastador.NombrePanelesST.Subasta)).darGanador();
+    }
+    
     public void mandarDatos() {
         this.datos.setPeticion(null);
         MensajeDatos datos  = new MensajeDatos(this.identificadorUsuario, this.datos.getIdentificador(), this.datos);
         servidor.mandarMensaje(datos);
+        actualizarDatos();
     }
     
     public void accionMensaje(Mensaje msg) {
@@ -80,10 +153,23 @@ public class DatosSubastador {
         }
         mandarDatos();
     }
+    
+    public void cancelar() {
+        this.datos.setEstatus(DatosSubasta.estadoSubasta.CANCELADA);
+        MensajeDatos msg = new MensajeDatos(this.identificadorUsuario, this.datos.getIdentificador(), this.datos);
+        this.servidor.mandarMensaje(msg);
+        MensajeObservables msg1 =
+                new MensajeObservables(this.identificadorUsuario, this.datos.getIdentificador(), this.datos.getNombre(), false);
+        this.servidor.mandarMensaje(msg1);
+        this.interfaz.limpiar();   
+        this.limpiar(); 
+    }
+    
     public void limpiar() {
         this.identificadorUsuario = "NA";
         this.datos = null;
         this.servidor = null;
+        this.reloj = null;
     }
 
     public InterfazSubastador getInterfaz() {

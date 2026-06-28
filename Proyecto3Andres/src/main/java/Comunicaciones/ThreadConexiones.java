@@ -19,7 +19,6 @@ public class ThreadConexiones extends Thread  {
     public void run() {
         while(isRunning) {
             Socket socket = null;
-            
             try {
                 socket = servidor.getSocketServidor().accept();
                 servidor.agregarEspera(socket, this.contadorConexiones++);

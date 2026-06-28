@@ -17,6 +17,13 @@ public class Producto implements Serializable {
     private String descripcion;
     private ImagenSerializable imagen;
 
+    public Producto(int precioInicial, ImagenSerializable imagen, String descripcion) {
+        this.precioFinal = precioInicial;
+        this.precioInicial = precioInicial;
+        this.imagen = imagen;
+        this.descripcion = descripcion;
+    }
+    
     public Producto(int precioFinal, int precioInicial, ImagenSerializable imagen) {
         this.precioFinal = precioFinal;
         this.precioInicial = precioInicial;
@@ -45,6 +52,14 @@ public class Producto implements Serializable {
 
     public void setImagen(ImagenSerializable imagen) {
         this.imagen = imagen;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
     

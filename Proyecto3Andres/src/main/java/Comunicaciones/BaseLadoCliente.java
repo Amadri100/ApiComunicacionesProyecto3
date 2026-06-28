@@ -29,13 +29,16 @@ public abstract class BaseLadoCliente extends Thread {
         this.salida = new ObjectOutputStream(socket.getOutputStream());
         this.entrada = new ObjectInputStream(socket.getInputStream());
         this.tipo = tipo;
-        this.solicitarConexion();
         this.start();
+        this.solicitarConexion();
+        
         
     }
         
     public Socket abrirConexion() throws IOException {
+        System.out.println("Intenta");
         Socket nueva = new Socket(this.Ip, this.Port);
+        System.out.println("Abre conexion");
         return nueva;
     }
     
@@ -70,6 +73,7 @@ public abstract class BaseLadoCliente extends Thread {
         while (isRunning) {
             try {
                 Mensaje mensaje = (Mensaje) entrada.readObject();
+                System.out.println("Recibe mensaje: " + mensaje.getTipo());
                 if (this.estaConectado)
                     accionConMensaje(mensaje);
                 else 

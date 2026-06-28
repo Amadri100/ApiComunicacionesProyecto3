@@ -72,6 +72,7 @@ public class PanelConexionSubastador extends javax.swing.JPanel {
     private void btnConectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarseActionPerformed
         btnConectarse.setEnabled(false);
         boolean caso = this.interfaz.getSubastador().conectar();
+        System.out.println("EH: " + caso);
         btnConectarse.setEnabled(true);
         if (caso) {
             this.interfaz.mostrarPanel(InterfazSubastador.NombrePanelesST.DarDatos);

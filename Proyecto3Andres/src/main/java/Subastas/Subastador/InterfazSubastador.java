@@ -38,6 +38,7 @@ public class InterfazSubastador extends javax.swing.JFrame {
      */
     public InterfazSubastador() {
         initComponents();
+        this.paneles = new HashMap<>();
         this.Pantalla.setLayout(new CardLayout());
         JPanel panel = new PanelConexionSubastador(this);
         this.Pantalla.add(panel, NombrePanelesST.Conexion.getNombre());
@@ -48,8 +49,15 @@ public class InterfazSubastador extends javax.swing.JFrame {
         panel = new PanelSubasta(this);
         this.Pantalla.add(panel, NombrePanelesST.Subasta.getNombre());
         this.paneles.put(NombrePanelesST.Subasta.getNombre(), panel);
+        this.setResizable(false);
     }
 
+    public void limpiar() {
+        this.mostrarPanel(NombrePanelesST.Conexion);
+        ((PanelDarDatosSubastador)this.getPanelEspecifico(NombrePanelesST.DarDatos)).limpiar();
+        ((PanelDarDatosSubastador)this.getPanelEspecifico(NombrePanelesST.Subasta)).limpiar();
+    }
+    
     public void mostrarPanel(NombrePanelesST tipo) {
         CardLayout layout = (CardLayout) this.Pantalla.getLayout();
         layout.show(this.Pantalla, tipo.getNombre());
@@ -101,11 +109,11 @@ public class InterfazSubastador extends javax.swing.JFrame {
         Pantalla.setLayout(PantallaLayout);
         PantallaLayout.setHorizontalGroup(
             PantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 979, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         PantallaLayout.setVerticalGroup(
             PantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 555, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,16 +121,15 @@ public class InterfazSubastador extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Pantalla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Pantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Pantalla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(Pantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
