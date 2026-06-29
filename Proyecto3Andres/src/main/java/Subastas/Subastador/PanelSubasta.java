@@ -69,17 +69,7 @@ public class PanelSubasta extends javax.swing.JPanel {
         lblEstatus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         panelImagen.setBackground(new java.awt.Color(51, 102, 255));
-
-        javax.swing.GroupLayout panelImagenLayout = new javax.swing.GroupLayout(panelImagen);
-        panelImagen.setLayout(panelImagenLayout);
-        panelImagenLayout.setHorizontalGroup(
-            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 780, Short.MAX_VALUE)
-        );
-        panelImagenLayout.setVerticalGroup(
-            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
-        );
+        panelImagen.setLayout(new java.awt.BorderLayout());
 
         taBitacora.setColumns(20);
         taBitacora.setRows(5);

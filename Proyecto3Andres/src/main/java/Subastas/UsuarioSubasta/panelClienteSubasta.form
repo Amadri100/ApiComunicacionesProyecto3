@@ -23,15 +23,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jScrollPane1" min="-2" pref="192" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="btnCancelar" max="32767" attributes="0"/>
+                          <Component id="input" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="lblPrecioActual" min="-2" pref="177" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="lblPrecioActual" min="-2" pref="177" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -52,13 +52,12 @@
                           <Group type="102" attributes="0">
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Component id="panelImagen" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="lblDescripcion" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,13 +73,22 @@
                   <Component id="btnCancelar" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblFecha" min="-2" pref="33" max="-2" attributes="0"/>
-                  <Component id="lblPrecioActual" min="-2" pref="42" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblFecha" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="lblPrecioActual" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-              <Component id="lblDescripcion" pref="124" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <Component id="lblDescripcion" pref="86" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="input" min="-2" pref="36" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" min="-2" pref="398" max="-2" attributes="0"/>
                   <Component id="panelImagen" min="-2" max="-2" attributes="0"/>
@@ -95,6 +103,11 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Nombre"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
     </Component>
@@ -103,6 +116,11 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Fecha"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
     </Component>
@@ -111,6 +129,11 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Estatus"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
     </Component>
@@ -144,7 +167,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTextArea1">
+        <Component class="javax.swing.JTextArea" name="Historial">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
@@ -155,6 +178,11 @@
     <Component class="javax.swing.JLabel" name="lblDescripcion">
       <Properties>
         <Property name="text" type="java.lang.String" value="Descripcion"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnCancelar">
@@ -165,7 +193,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cancelar Subasta"/>
+        <Property name="text" type="java.lang.String" value="Salir Subasta"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
@@ -176,8 +204,18 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="PrecioActual"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="input">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
