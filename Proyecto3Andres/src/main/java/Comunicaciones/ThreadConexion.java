@@ -31,7 +31,6 @@ public class ThreadConexion extends Thread{
         } catch (IOException ex) {
             servidor.getInterfaz().escribirTexto("ERROR: " + ex.getMessage());
         }
-        System.out.println("Nace una nueva conexion");
     }
     
     public void limpiar() {
@@ -51,12 +50,13 @@ public class ThreadConexion extends Thread{
         while (isRunning) {
             try {
                 Mensaje mensaje = (Mensaje) entrada.readObject();
-                System.out.println("Se leyo yn mensaje");
                 servidor.recibirMensaje(mensaje, this);
             }
             catch (Exception e) {
-                 servidor.getInterfaz().escribirTexto("ERROR: " + e.getMessage());
+                 //servidor.getInterfaz().escribirTexto("ERROR: " + e.getMessage());
+                 servidor.getInterfaz().escribirTexto("ERROR*: " + e.toString());
                  servidor.getInterfaz().escribirTexto("Se cierra la coneccion");
+                 this.isRunning = false;
                  servidor.eliminarConexion(this);
             }
             

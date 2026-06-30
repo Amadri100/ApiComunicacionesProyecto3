@@ -27,10 +27,8 @@ public class DatosSubastador {
     
     public boolean conectar() {
         if (servidor == null){
-            System.out.println("ENT");
             try {
                 this.servidor = new ThreadSubastador(this);
-                System.out.println("AQUI");
                 return true;
             }
             catch (Exception e) {
@@ -95,10 +93,14 @@ public class DatosSubastador {
     
     public void iniciarSubasta(DatosSubasta datos) {
         this.datos = datos;
+        
         MensajeObservables msg = new MensajeObservables(this.identificadorUsuario, this.baseCodigo, this.datos.getNombre(), true, this.datos);
-        this.servidor.mandarMensaje(msg);
+
+        this.servidor.mandarMensaje(msg);        
+
         this.reloj = new threadReloj(this);
         this.reloj.start();
+
         cargarDatos();
     }
     
@@ -124,9 +126,10 @@ public class DatosSubastador {
                 MensajeDatos msg1 = (MensajeDatos)msg;
                 if(msg1.permitidoPorUsuario()) {
                      PeticionSubasta peticion = (PeticionSubasta)msg1.getDatosDelMensaje().getPeticion();
+                     accionPeticion(peticion);
                 }
                 else {
-                    if (this.datos.getIdentificador() == "NA") {
+                    if (this.datos.getIdentificador().equals("NA") ) {
                         this.datos.setIdentificador(msg1.getDatosDelMensaje().getIdentificador());
                     }
                 }

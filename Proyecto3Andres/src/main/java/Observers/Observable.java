@@ -41,6 +41,7 @@ public class Observable implements Serializable {
     
     public void agregarObservable(IObserver observador) {
         this.observables.add(observador);
+        System.out.println("Se Agrego un observer: " + observador.getId());
     }
     
     public void eliminarObserver(IObserver observador) {
@@ -59,6 +60,7 @@ public class Observable implements Serializable {
         return elimino;
     }
     public void notificarTodos() {
+        
         for (int i = 0; i < this.observables.size(); i++) {
             observables.get(i).notificar();
         }

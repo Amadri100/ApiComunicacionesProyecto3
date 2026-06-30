@@ -25,7 +25,6 @@ public class FiltroNumeros extends DocumentFilter {
                              AttributeSet attr)
             throws BadLocationException {
 
-        System.out.println("Texto: - " + string);
         
         if (string == null) {
             string = "";
@@ -34,7 +33,6 @@ public class FiltroNumeros extends DocumentFilter {
         String textoPrevio = fb.getDocument().getText(0, fb.getDocument().getLength());
         String definitivo = textoPrevio.substring(0, offset) + string + textoPrevio.substring(offset);
         
-        System.out.println("Resulstado -" + definitivo);
         if (definitivo.matches(regexVerificacion)) {  
                 super.insertString(fb, offset, string, attr);
         }
@@ -50,7 +48,6 @@ public class FiltroNumeros extends DocumentFilter {
                          AttributeSet attrs)
             throws BadLocationException {
 
-        System.out.println("Texto: - " + string);
         
         if (string == null) {
             string = "";
@@ -59,7 +56,6 @@ public class FiltroNumeros extends DocumentFilter {
         String textoPrevio = fb.getDocument().getText(0, fb.getDocument().getLength());
         String definitivo = textoPrevio.substring(0, offset) + string + textoPrevio.substring(offset + length);
         
-        System.out.println("Resulstado -" + definitivo);
         
         if (definitivo.matches(regexVerificacion)) {
             super.replace(fb, offset, length, string, attrs);

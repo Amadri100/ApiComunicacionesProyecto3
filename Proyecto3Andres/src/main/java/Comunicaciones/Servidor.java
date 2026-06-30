@@ -54,25 +54,31 @@ public class Servidor {
     
     public Servidor(Interfaz interfaz) {
         this.interfaz = interfaz;
-        connect();
+       if( connect()) {
         this.conexionesEnEspera = new ArrayList<>();
         this.conexionesObservables = new HashMap<>();
-        this.conexionesObservables = new HashMap<>();
+        this.conexionesObservadores = new HashMap<>();
         this.numeroSegunBase = new HashMap<>();
         this.listaObservables = new HashMap<>();
         this.buscarConexiones = new ThreadConexiones(this);
         this.threadMandadoMensajes = new ThreadMensajeAMandar(this);
+        this.esDueñoDe = new HashMap<>();
         this.buscarConexiones.start();  
         this.threadMandadoMensajes.start();
+        }
+        
     }
 
-    private void connect() {
+    private boolean connect() {
         try {
             this.socketServidor = new ServerSocket(port);
+            this.socketServidor.setReceiveBufferSize(1024 * 1024);
             interfaz.escribirTexto("Servidor iniciado en el puerto: " + String.valueOf(port));
+            return true;
         } catch (IOException ex) {
             interfaz.escribirTexto("ERROR: " + ex.getMessage());
         }
+        return false;
     }
     
     public void eliminarConexion(ThreadConexion conexion) {
@@ -150,11 +156,10 @@ public class Servidor {
         boolean encontrado = false;
         int indice = -1;
         String identidad = "";
-        System.out.println("Nombre: " + conexion.getIdentificador() + " p-");
         switch (msg.getTipo()) {
             case ConectarseServidor:
                 MensajeConexion msg0 = (MensajeConexion)msg;
-                if (msg0.isConexion()) {
+                if (msg0.isConexion()) { //Admin
                     indice = indiceDeConexionSegunId(conexion.getIdentificador());
                     if (indice != -1) {
                         encontrado = true;
@@ -165,26 +170,26 @@ public class Servidor {
                         this.conexionesObservables.put(conexion.getIdentificador(), conexion);
                     }
                 }
-                else {
+                else { //Usuario
                     indice = indiceDeConexionSegunId(conexion.getIdentificador());
                     if (indice != -1) {
                         encontrado = true;
                         ThreadConexion conexionGuardada = this.conexionesEnEspera.get(indice);
                         this.conexionesEnEspera.remove(indice);
-                        identidad += "US" + contadorObservables++;
+                        identidad += "US" + contadorUsuarios++;
                         conexionGuardada.cambiarID(identidad);
-                        this.conexionesObservables.put(conexion.getIdentificador(), conexion);
+                        this.conexionesObservadores.put(conexion.getIdentificador(), conexion);
                     }
                 }
                 if (encontrado) {
-                    System.out.println("Se manda mensaje de notificacion");
                     MensajeNotificacion msgNoti = new MensajeNotificacion(identidad);
                     conexion.mandarMensaje(msgNoti);
                 }
                 break;
             case CrearObservable: 
                 if (conexion.getIdentificador().matches("AD\\d+")) {
-                    boolean esDueñoDeAlgo = this.esDueñoDe.get(conexion.getIdentificador()) == null;
+
+                    boolean esDueñoDeAlgo = this.esDueñoDe.get(conexion.getIdentificador()) != null;
                     MensajeObservables msg1 = (MensajeObservables)msg;
                     String codigo = "";
                     indice = 0;
@@ -192,14 +197,15 @@ public class Servidor {
                         identidad = msg1.getIDObjetivo();
                         if (this.numeroSegunBase.get(msg1.getIDObjetivo()) != null) {
                             indice = this.numeroSegunBase.get(msg1.getIDObjetivo());
-                            this.numeroSegunBase.put(codigo, indice+1);
+                            this.numeroSegunBase.put(identidad, indice+1);
                         }
                         else {
-                            this.numeroSegunBase.put(codigo, indice+1);
+                            this.numeroSegunBase.put(identidad, indice+1);
                         }
                         identidad += String.valueOf(indice);
                         Observable observable = new Observable(this, msg1.getDatos(), identidad);
                         ObserverAdmin observer1 = new ObserverAdmin(conexion.getIdentificador(), observable);
+                        this.listaObservables.put(identidad, observable);
                         this.esDueñoDe.put(conexion.getIdentificador(), identidad);
                         observable.agregarObservable(observer1);
                         observable.notificarPrioridad(); 
@@ -227,6 +233,7 @@ public class Servidor {
                 }
                 break;
             case Subscripciones: 
+                System.out.println("Se recibio una notificacion de suscripciones");
                 if (conexion.getIdentificador().matches("US\\d+")){
                     MensajeSuscripcion msg3 = (MensajeSuscripcion)msg;
                     Observable observable1 = this.listaObservables.get(msg3.getIDObjetivo());
@@ -234,6 +241,8 @@ public class Servidor {
                         if (observable1 != null) {
                             ObserverUsuario observer2 = new ObserverUsuario(conexion.getIdentificador(), observable1);
                             observable1.agregarObservable(observer2);
+                            observable1.notificarTodos();
+
                         }
                         if (observable1 != null) {
                             observable1.eliminarObserver(conexion.getIdentificador());
@@ -245,14 +254,11 @@ public class Servidor {
             case TodosLosDatos: /*El servidor no recibe esta clase de mensajes*/ break;
 
         }
-        
- 
-     
     }
 
     public void agregarEspera(Socket socket, int numConexion) {
-        System.out.println("Adicion de miembro...");
         ThreadConexion conexion = new ThreadConexion(socket, this);
+        conexion.start();
         conexion.cambiarID("ES" + numConexion);
         this.conexionesEnEspera.add(conexion);
     }

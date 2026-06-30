@@ -47,6 +47,7 @@ public class PanelResumenSubsta extends javax.swing.JPanel {
                 break;
         }
         this.lblEstado.setText(estado);
+        this.interfaz = interfaz;
         mostrarImagen(datos.getProducto().getImagen());
         
     }
@@ -59,7 +60,6 @@ public class PanelResumenSubsta extends javax.swing.JPanel {
                 try {
                     img = new ImagenSerializable(ruta);
                 } catch (IOException ex) {
-                    System.out.println("MI: " + ex.getMessage());
                     img = null;
                 }
             } catch (URISyntaxException ex) {

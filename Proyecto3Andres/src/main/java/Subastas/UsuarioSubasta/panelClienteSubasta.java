@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Subastas.UsuarioSubasta;
 
 import ImagenSerializable.ImagenSerializable;
@@ -126,7 +122,6 @@ public class panelClienteSubasta extends javax.swing.JPanel {
                 try {
                     img = new ImagenSerializable(ruta);
                 } catch (IOException ex) {
-                    System.out.println("MI: " + ex.getMessage());
                     img = null;
                 }
             } catch (URISyntaxException ex) {
@@ -322,18 +317,9 @@ public class panelClienteSubasta extends javax.swing.JPanel {
 
         panelImagen.setBackground(new java.awt.Color(51, 102, 255));
         panelImagen.setMinimumSize(new java.awt.Dimension(780, 360));
+        panelImagen.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout panelImagenLayout = new javax.swing.GroupLayout(panelImagen);
-        panelImagen.setLayout(panelImagenLayout);
-        panelImagenLayout.setHorizontalGroup(
-            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 780, Short.MAX_VALUE)
-        );
-        panelImagenLayout.setVerticalGroup(
-            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
-        );
-
+        Historial.setEditable(false);
         Historial.setColumns(20);
         Historial.setRows(5);
         jScrollPane1.setViewportView(Historial);
@@ -359,17 +345,15 @@ public class panelClienteSubasta extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(input)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(input)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblPrecioActual, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()

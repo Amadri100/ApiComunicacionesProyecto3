@@ -25,6 +25,7 @@ public class ImagenSerializable implements Serializable{
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         ImageIO.write(imagen, extension, byteOutput);
         this.datosImagen = byteOutput.toByteArray();
+        //System.out.println("Imagen Serializada: " + datosImagen.length + "bytes");
     }
     
     public ImagenSerializable(Path ruta) throws IOException {

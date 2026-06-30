@@ -12,11 +12,10 @@ public class Interfaz extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaz.class.getName());
 
-    /**
-     * Creates new form Interfaz
-     */
+    
     public Interfaz() {
         initComponents();
+        this.setResizable(false);
     }
 
     public void escribirTexto(String texto) { //Appende de \n includio

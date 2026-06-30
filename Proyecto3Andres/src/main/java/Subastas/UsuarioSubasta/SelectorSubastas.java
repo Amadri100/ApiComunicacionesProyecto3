@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Subastas.UsuarioSubasta;
 
 import Subastas.DatosSubasta;
+import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 
  /**
  *
@@ -19,11 +18,15 @@ public class SelectorSubastas extends javax.swing.JPanel {
     
     public SelectorSubastas(usuarioSubastaPrincipal interfaz) {
         initComponents();
+         
+        this.Contenedor.setLayout(new BoxLayout(this.Contenedor, BoxLayout.Y_AXIS));
         this.interfaz = interfaz;
+        this.paneles = new HashMap<>();
     }
 
     public void actualizarPanelesSeleccion(HashMap<String, DatosSubasta> mapa) {
-        for (String identificador : paneles.keySet()) { //Casos en los 
+        //for (String identificador : paneles.keySet()) { //Casos en los 
+        for (String identificador : new ArrayList<> (paneles.keySet())) { //Casos en los 
             if (mapa.get(identificador) == null) {
                 this.Contenedor.remove(paneles.get(identificador));
                 paneles.remove(identificador); //Elimina sobrantes y ya seleccionados
@@ -33,11 +36,18 @@ public class SelectorSubastas extends javax.swing.JPanel {
                 mapa.remove(identificador);
             }
         }
+        int contador = 0;
         for (String identificador : mapa.keySet()) {
             PanelResumenSubsta panel = new PanelResumenSubsta(this.interfaz, mapa.get(identificador));
+            panel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+            panel.setMaximumSize(panel.getPreferredSize()); 
+            System.out.println("Contador: " + contador++);
             this.Contenedor.add(panel);
             paneles.put(identificador,panel);
+             this.Contenedor.revalidate();
+             this.Contenedor.repaint();
         }
+       
     }
     
     public void revisarSiYaEstaPuesto() {

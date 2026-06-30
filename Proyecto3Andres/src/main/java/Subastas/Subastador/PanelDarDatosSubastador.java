@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Subastas.Subastador;
 
 import ImagenSerializable.ImagenSerializable;
@@ -237,12 +233,10 @@ public class PanelDarDatosSubastador extends javax.swing.JPanel {
             Path archoivo = selector.getSelectedFile().toPath();
             try {
                 ImagenSerializable imgTemp = new ImagenSerializable(archoivo);
-                System.out.println("Permite imagen");
                 this.imagen = imgTemp;
                 this.lblArchivo.setText("Se encontro Imagen en : " + archoivo.toString());
                 this.lblArchivo.setForeground(Color.BLACK);
             } catch (Exception ex) {
-                System.out.println("Declara excepcion");
                 this.lblArchivo.setText("ERROR: " + archoivo.toString() +  " No es una imagen...");
                 this.lblArchivo.setForeground(Color.red);
                 this.imagen = null;

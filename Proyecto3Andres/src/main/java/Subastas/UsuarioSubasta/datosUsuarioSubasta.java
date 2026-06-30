@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Subastas.UsuarioSubasta;
 
 import Mensajes.Mensaje;
@@ -70,7 +66,7 @@ public class datosUsuarioSubasta {
             }
             catch (Exception e) {
                 PanelConectarUsuario panel = (PanelConectarUsuario) this.getInterfaz().getPanelConectar();
-                panel.mostrarTexto("ERROR: " + e.getMessage());
+                panel.mostrarTexto("ERROR: " + e.toString());
                 this.limpiar();
             }
         }
@@ -86,8 +82,10 @@ public class datosUsuarioSubasta {
             case MandarDatos:
                 MensajeDatos msg1 = (MensajeDatos)msg;
                 DatosSubasta datosMsg = (DatosSubasta)msg1.getDatosDelMensaje();
+                System.out.println("[CLIENTE] MandarDatos recibido, id: " + datosMsg.getIdentificador());                
                 this.datos.put(datosMsg.getIdentificador(), datosMsg);
-                //actualizar
+
+                this.interfaz.agregarDatosPanel(datosMsg);
                 break;
             case NotificacionUsurio:
                 if (identificadorUsuario.equals("NA")) { //Si no tiene ID la guarda
@@ -97,8 +95,10 @@ public class datosUsuarioSubasta {
                 break;
             case Subscripciones: /*{NO RECIBE}*/break;
             case TodosLosDatos: 
+                
                 MensajeTodosLosDatos msg3 = (MensajeTodosLosDatos)msg;
-                obtenerListadoValidos(msg3.getDatos());
+                this.interfaz.actualizarPanelesSeleccion(obtenerListadoValidos(msg3.getDatos()));
+                
                 break;
         }
     }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Subastas.Subastador;
 
 import java.awt.CardLayout;
@@ -38,6 +34,7 @@ public class InterfazSubastador extends javax.swing.JFrame {
      */
     public InterfazSubastador() {
         initComponents();
+        this.setResizable(false);
         this.paneles = new HashMap<>();
         this.Pantalla.setLayout(new CardLayout());
         JPanel panel = new PanelConexionSubastador(this);
@@ -55,7 +52,7 @@ public class InterfazSubastador extends javax.swing.JFrame {
     public void limpiar() {
         this.mostrarPanel(NombrePanelesST.Conexion);
         ((PanelDarDatosSubastador)this.getPanelEspecifico(NombrePanelesST.DarDatos)).limpiar();
-        ((PanelDarDatosSubastador)this.getPanelEspecifico(NombrePanelesST.Subasta)).limpiar();
+        ((PanelSubasta)this.getPanelEspecifico(NombrePanelesST.Subasta)).limpiar();
     }
     
     public void mostrarPanel(NombrePanelesST tipo) {

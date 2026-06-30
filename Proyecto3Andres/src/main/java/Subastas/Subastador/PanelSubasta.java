@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Subastas.Subastador;
 
 import ImagenSerializable.ImagenSerializable;
@@ -71,6 +67,7 @@ public class PanelSubasta extends javax.swing.JPanel {
         panelImagen.setBackground(new java.awt.Color(51, 102, 255));
         panelImagen.setLayout(new java.awt.BorderLayout());
 
+        taBitacora.setEditable(false);
         taBitacora.setColumns(20);
         taBitacora.setRows(5);
         jScrollPane1.setViewportView(taBitacora);
@@ -157,7 +154,6 @@ public class PanelSubasta extends javax.swing.JPanel {
                 try {
                     img = new ImagenSerializable(ruta);
                 } catch (IOException ex) {
-                    System.out.println("MI: " + ex.getMessage());
                     img = null;
                 }
             } catch (URISyntaxException ex) {
@@ -189,7 +185,7 @@ public class PanelSubasta extends javax.swing.JPanel {
     }
     
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.interfaz.getSubastador().cancelar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 

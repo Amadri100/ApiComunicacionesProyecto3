@@ -41,9 +41,11 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
      */
     public usuarioSubastaPrincipal() {
         initComponents();
+        this.setResizable(false);
         this.Pantalla.setLayout(new CardLayout());
         this.panelConectar = new PanelConectarUsuario(this);
         this.paneles = new HashMap<>();
+        abrirConectar();
     }
     
     
@@ -59,6 +61,9 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
         return str.equals(codigosDefinidos.SELECCIONAR.getNombre());
     }    
     public void cerrarTodo() {
+        if (this.paneles == null || this.paneles.isEmpty()){
+            return;
+        }
         for (String str : this.paneles.keySet()) {
              if (!textoEsSeleccionar(str)) {
                  panelClienteSubasta panel = (panelClienteSubasta)this.paneles.get(str);
@@ -77,18 +82,26 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     }   
     
     public String stringPaneles(DatosSubasta datos) {
-        return this.getName()+"(" + datos.getIdentificador() + ")";
+        return datos.getNombre()+"(" + datos.getIdentificador() + ")";
     }
     
     public void agregarDatosPanel(DatosSubasta datos) {
         String identificador = stringPaneles(datos);
+            System.out.println("[CLIENTE] agregarDatosPanel, key: " + identificador);
         if(paneles.get(identificador) != null) {
+            System.out.println("[CLIENTE] panel existente, actualizando");            
             ((panelClienteSubasta)paneles.get(identificador)).actualizarDatos(datos);
         }
         else {
+            System.out.println("[CLIENTE] panel nuevo, agregando a Pantalla");            
             panelClienteSubasta panel = new panelClienteSubasta(this, datos);
             paneles.put(identificador, panel);
+            Pantalla.add(panel, identificador);
+            Pantalla.revalidate();
+            Pantalla.repaint();         
+            
         }
+        actualizarSelector();
     }
 
     public void mostrarPanel(String texto) {
@@ -106,6 +119,9 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     
     public void abrirConectar() {
         this.Pantalla.add(panelConectar, codigosDefinidos.CONECTAR.getNombre());
+        Pantalla.revalidate();
+        Pantalla.repaint();
+ 
         this.mostrarPanel(codigosDefinidos.CONECTAR.getNombre());
     }
     
@@ -115,15 +131,20 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     }
     
     public void comenzarSeleccion() {
+        limpiar();
         SelectorSubastas selector = new SelectorSubastas(this);
         this.paneles.put(codigosDefinidos.SELECCIONAR.getNombre(), selector);
         this.Pantalla.add(selector, codigosDefinidos.SELECCIONAR.getNombre());
         mostrarPanel(codigosDefinidos.SELECCIONAR.getNombre());
+        actualizarSelector();
     }
     
     public void limpiar() {
         this.Pantalla.removeAll();
         this.paneles.clear();
+        actualizarSelector();
+        Pantalla.revalidate();
+        Pantalla.repaint();
     }
     
     /**
@@ -138,11 +159,13 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        Pantalla.setPreferredSize(new java.awt.Dimension(1000, 600));
+
         javax.swing.GroupLayout PantallaLayout = new javax.swing.GroupLayout(Pantalla);
         Pantalla.setLayout(PantallaLayout);
         PantallaLayout.setHorizontalGroup(
             PantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 988, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         PantallaLayout.setVerticalGroup(
             PantallaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,14 +178,15 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Pantalla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(SelectorDePantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(SelectorDePantallas, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Pantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +195,7 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
                 .addComponent(SelectorDePantallas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Pantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -265,3 +289,4 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> SelectorDePantallas;
     // End of variables declaration//GEN-END:variables
 }
+

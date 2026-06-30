@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Subastas.Subastador;
 
 import java.time.Instant;
@@ -20,7 +16,7 @@ public class threadReloj extends Thread{
     
     @Override
     public void run() {
-        if (running) {
+        while (running) {
             int res = Instant.now().compareTo(this.datos.getDatos().getFinalCronometro());
             if (res >= 0) { //Despues o en el mimsmo mometno que la fecha en 
                 this.running = false;

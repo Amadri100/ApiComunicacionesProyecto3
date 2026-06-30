@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package Subastas.UsuarioSubasta;
 
 /**
@@ -13,11 +9,12 @@ public class PanelConectarUsuario extends javax.swing.JPanel {
     private usuarioSubastaPrincipal interfaz;
     
     public PanelConectarUsuario(usuarioSubastaPrincipal interfaz) {
+        initComponents();
         this.interfaz = interfaz;
     }
 
     public void mostrarTexto(String texto) {
-        this.Consola.append(texto);
+        this.Consola.append(texto+ '\n');
     }
     
     /**
@@ -27,12 +24,13 @@ public class PanelConectarUsuario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btnConectar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Consola = new javax.swing.JTextArea();
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jButton1.setText("Conectarse");
+        btnConectar.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        btnConectar.setText("Conectarse");
+        btnConectar.addActionListener(this::btnConectarActionPerformed);
 
         Consola.setColumns(20);
         Consola.setRows(5);
@@ -44,7 +42,7 @@ public class PanelConectarUsuario extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(151, 151, 151)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnConectar, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(188, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
@@ -54,15 +52,27 @@ public class PanelConectarUsuario extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnConectar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
+        this.btnConectar.setEnabled(false);
+        boolean caso = this.interfaz.getDatos().conectar();
+        if (caso) {
+            this.interfaz.comenzarSeleccion();
+        }
+        else {
+            //Nada
+        }
+        this.btnConectar.setEnabled(true);
+    }//GEN-LAST:event_btnConectarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea Consola;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnConectar;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
