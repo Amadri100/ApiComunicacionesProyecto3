@@ -69,17 +69,18 @@ public class ThreadConexion extends Thread{
         }
     }
     
-    
-    //GETTERS SETTERS
-    public void mandarMensaje(Mensaje mensaje) {
+    public synchronized void mandarMensaje(Mensaje mensaje) {
         try { 
             salida.writeObject(mensaje);
             salida.flush();
+            salida.reset();
         } catch (IOException ex) {
             servidor.getInterfaz().escribirTexto("ERROR: " + ex.getMessage());
         }
         
     }
+    //GETTERS SETTERS
+
     
         public void cambiarID(String id) {
         this.identificador = id;

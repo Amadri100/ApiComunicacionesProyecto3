@@ -123,8 +123,11 @@ public class DatosSubastador {
             case ConectarseServidor: /*{NO RECIBE}*/ break;
             case CrearObservable: /*{NO RECIBE}*/break;
             case MandarDatos: 
+                System.out.println("Recibe mensaje datos");
                 MensajeDatos msg1 = (MensajeDatos)msg;
+                System.out.println(msg1.getIDMandado() + " " + ((PeticionSubasta)msg1.getDatosDelMensaje().getPeticion())); 
                 if(msg1.permitidoPorUsuario()) {
+                     System.out.println("Detecta peticion");
                      PeticionSubasta peticion = (PeticionSubasta)msg1.getDatosDelMensaje().getPeticion();
                      accionPeticion(peticion);
                 }
@@ -170,9 +173,12 @@ public class DatosSubastador {
     
     public void limpiar() {
         this.identificadorUsuario = "NA";
+        if (reloj != null) {
+            this.reloj.setRunning(false);
+        }
+        this.reloj = null;
         this.datos = null;
         this.servidor = null;
-        this.reloj = null;
     }
 
     public InterfazSubastador getInterfaz() {

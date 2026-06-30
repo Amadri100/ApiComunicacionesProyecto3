@@ -22,5 +22,8 @@ public class MensajeDatos extends Mensaje{
     public void setDatosDelMensaje(Datos datosDelMensaje) {
         this.datosDelMensaje = datosDelMensaje;
     }
+
+ 
+    
     
 }

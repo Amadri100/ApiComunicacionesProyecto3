@@ -13,10 +13,12 @@ import static Mensajes.TiposMensaje.NotificacionUsurio;
 import static Mensajes.TiposMensaje.Subscripciones;
 import static Mensajes.TiposMensaje.TodosLosDatos;
 import Observers.Datos;
+import Observers.Peticion;
 import Subastas.DatosSubasta;
 import static Subastas.DatosSubasta.estadoSubasta.CANCELADA;
 import static Subastas.DatosSubasta.estadoSubasta.CERRADA;
 import static Subastas.DatosSubasta.estadoSubasta.VENDIDA;
+import Subastas.PeticionSubasta;
  
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +64,7 @@ public class datosUsuarioSubasta {
         if (servidor == null){
             try {
                 this.servidor = new ThreadUsuarioSubasta(this);
+                this.identificadorUsuario = this.servidor.getIdentificacion();
                 return true;
             }
             catch (Exception e) {
@@ -82,13 +85,12 @@ public class datosUsuarioSubasta {
             case MandarDatos:
                 MensajeDatos msg1 = (MensajeDatos)msg;
                 DatosSubasta datosMsg = (DatosSubasta)msg1.getDatosDelMensaje();
-                System.out.println("[CLIENTE] MandarDatos recibido, id: " + datosMsg.getIdentificador());                
                 this.datos.put(datosMsg.getIdentificador(), datosMsg);
-
                 this.interfaz.agregarDatosPanel(datosMsg);
                 break;
             case NotificacionUsurio:
-                if (identificadorUsuario.equals("NA")) { //Si no tiene ID la guarda
+                if (identificadorUsuario.equals("NA")) { //Si no tiene ID la guarda //No deberia ssuceder
+                    System.out.println("Sucede");
                     MensajeNotificacion msg2 = (MensajeNotificacion)msg;
                     this.identificadorUsuario = msg2.getIDObjetivo();  
                 }
@@ -101,6 +103,7 @@ public class datosUsuarioSubasta {
                 
                 break;
         }
+        System.out.println("ID; " + this.identificadorUsuario);
     }
      
     
@@ -118,6 +121,19 @@ public class datosUsuarioSubasta {
             mapa.put(dato.getIdentificador(), convetido);
         }
         return mapa;
+    }
+    
+    public boolean mandarPedido(int num, String idEvento) {
+        if (num <= this.datos.get(idEvento).getLimiteActual()) {
+            return false;
+        }
+        PeticionSubasta peticion = new PeticionSubasta(num, this.identificadorUsuario);
+        DatosSubasta datosLoc = this.datos.get(idEvento);
+        datosLoc.setPeticion(peticion);
+        MensajeDatos msg = new MensajeDatos(this.identificadorUsuario, idEvento, datosLoc);
+        System.out.println(msg.getIDMandado() + " " + ((PeticionSubasta)msg.getDatosDelMensaje().getPeticion())); 
+        this.servidor.mandarMensaje(msg);
+        return true;
     }
     
     public void suscribirse(String identificacion) {

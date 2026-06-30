@@ -61,12 +61,14 @@ public abstract class BaseLadoCliente extends Thread {
     
     public abstract void avisarError(Exception e);
     public abstract void accionConMensaje(Mensaje msg);
+    public abstract void accionConexion();
     
     public void accionPrevioConexion(Mensaje msg) {
         if (msg.getTipo() == TiposMensaje.NotificacionUsurio) {
             MensajeNotificacion msgNoti = (MensajeNotificacion)msg;
             this.identificacion = msgNoti.getIDObjetivo();
             this.estaConectado = true;
+            accionConexion();
         }
     }
         
@@ -95,10 +97,11 @@ public abstract class BaseLadoCliente extends Thread {
         mandarMensaje(msg);
     }
     
-    public void mandarMensaje(Mensaje mensaje) {
+    public synchronized void mandarMensaje(Mensaje mensaje) {
         try { 
             salida.writeObject(mensaje);
             salida.flush();
+            salida.reset();
         } catch (IOException ex) {
             avisarError(ex);
         }

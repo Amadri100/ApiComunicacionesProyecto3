@@ -30,5 +30,10 @@ public class ThreadUsuarioSubasta extends BaseLadoCliente{
     public void accionConMensaje(Mensaje msg) {
         this.datos.accionMensaje(msg);
     }
+
+    @Override
+    public void accionConexion() {
+       this.datos.setIdentificadorUsuario(this.getIdentificacion());
+    }
     
 }

@@ -86,14 +86,15 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     }
     
     public void agregarDatosPanel(DatosSubasta datos) {
+        System.out.println("Se recibieron datos");
         String identificador = stringPaneles(datos);
-            System.out.println("[CLIENTE] agregarDatosPanel, key: " + identificador);
-        if(paneles.get(identificador) != null) {
-            System.out.println("[CLIENTE] panel existente, actualizando");            
+           
+        if(paneles.get(identificador) != null) {     
+            System.out.println("Existe");
             ((panelClienteSubasta)paneles.get(identificador)).actualizarDatos(datos);
         }
-        else {
-            System.out.println("[CLIENTE] panel nuevo, agregando a Pantalla");            
+        else {    
+            System.out.println("Se crea uno nuevo");
             panelClienteSubasta panel = new panelClienteSubasta(this, datos);
             paneles.put(identificador, panel);
             Pantalla.add(panel, identificador);

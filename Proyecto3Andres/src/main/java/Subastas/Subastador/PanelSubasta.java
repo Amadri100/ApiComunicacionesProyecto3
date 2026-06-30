@@ -52,16 +52,19 @@ public class PanelSubasta extends javax.swing.JPanel {
         lblNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombre.setText("Nombre");
         lblNombre.setToolTipText("");
+        lblNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblNombre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblFecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFecha.setText("Fecha");
         lblFecha.setToolTipText("");
+        lblFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblFecha.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblEstatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEstatus.setText("Estatus");
         lblEstatus.setToolTipText("");
+        lblEstatus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblEstatus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         panelImagen.setBackground(new java.awt.Color(51, 102, 255));
@@ -73,6 +76,7 @@ public class PanelSubasta extends javax.swing.JPanel {
         jScrollPane1.setViewportView(taBitacora);
 
         lblDescripcion.setText("Descripcion");
+        lblDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnCancelar.setBackground(new java.awt.Color(255, 0, 0));
         btnCancelar.setForeground(new java.awt.Color(0, 0, 0));

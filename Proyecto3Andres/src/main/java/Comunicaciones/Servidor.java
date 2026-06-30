@@ -104,8 +104,8 @@ public class Servidor {
     
     public void quitarObservable(String idConexion) {
         Observable observableEnCuestion = this.listaObservables.get(this.esDueñoDe.get(idConexion));
-        this.listaObservables.remove(observableEnCuestion.getIdEvento());
         observableEnCuestion.terminar();
+        this.listaObservables.remove(observableEnCuestion.getIdEvento());
     }
     
     public void desuscribirseTodos(String identificacion) {
@@ -184,6 +184,7 @@ public class Servidor {
                 if (encontrado) {
                     MensajeNotificacion msgNoti = new MensajeNotificacion(identidad);
                     conexion.mandarMensaje(msgNoti);
+                    System.out.println("Manda mensajee");
                 }
                 break;
             case CrearObservable: 
@@ -227,24 +228,25 @@ public class Servidor {
                 boolean esUsuario = conexion.getIdentificador().matches("US\\d+");
                 if (msg2.permitidoPorUsuario() && esUsuario) {
                     this.listaObservables.get(codigo1).getDatos().setPeticion(msg2.getDatosDelMensaje().getPeticion());
+                    this.listaObservables.get(codigo1).notificarTodos();
                 }
                 else if (!esUsuario){
                     this.listaObservables.get(codigo1).setDatos(msg2.getDatosDelMensaje());
+                    this.listaObservables.get(codigo1).notificarTodos();
                 }
                 break;
             case Subscripciones: 
-                System.out.println("Se recibio una notificacion de suscripciones");
                 if (conexion.getIdentificador().matches("US\\d+")){
                     MensajeSuscripcion msg3 = (MensajeSuscripcion)msg;
                     Observable observable1 = this.listaObservables.get(msg3.getIDObjetivo());
                     if (observable1 != null) {
-                        if (observable1 != null) {
+                        if (msg3.isCaso()) {
                             ObserverUsuario observer2 = new ObserverUsuario(conexion.getIdentificador(), observable1);
                             observable1.agregarObservable(observer2);
                             observable1.notificarTodos();
 
                         }
-                        if (observable1 != null) {
+                        else {
                             observable1.eliminarObserver(conexion.getIdentificador());
                         }
                     }
@@ -258,9 +260,9 @@ public class Servidor {
 
     public void agregarEspera(Socket socket, int numConexion) {
         ThreadConexion conexion = new ThreadConexion(socket, this);
-        conexion.start();
         conexion.cambiarID("ES" + numConexion);
         this.conexionesEnEspera.add(conexion);
+        conexion.start();
     }
     
     //GETTER SETTERS

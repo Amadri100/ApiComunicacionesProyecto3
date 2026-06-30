@@ -83,9 +83,9 @@ public class panelClienteSubasta extends javax.swing.JPanel {
         }
         this.lblEstatus.setText(estado);
         this.estado = datos.getEstatus();
-        this.lblPrecioActual.setText("%" + datos.getLimiteActual());
+        this.lblPrecioActual.setText("$" + datos.getLimiteActual());
         this.Historial.setText(datos.getHistorial());
-        
+        ejecutarAccion();
     };
     
     public final void obtenerDatos(DatosSubasta datos) {
@@ -108,10 +108,11 @@ public class panelClienteSubasta extends javax.swing.JPanel {
         }
         this.lblEstatus.setText(estado);
         this.estado = datos.getEstatus();
-        this.lblPrecioActual.setText("%" + datos.getLimiteActual());
+        this.lblPrecioActual.setText("$" + datos.getLimiteActual());
         this.Historial.setText(datos.getHistorial());
+        this.lblError.setText("");
         mostrarImagen(datos.getProducto().getImagen());
-        
+        ejecutarAccion();
     }
     public final void mostrarImagen(ImagenSerializable imagen) {
         ImagenSerializable img = imagen;
@@ -296,6 +297,7 @@ public class panelClienteSubasta extends javax.swing.JPanel {
         btnCancelar = new javax.swing.JButton();
         lblPrecioActual = new javax.swing.JLabel();
         input = new javax.swing.JTextField();
+        lblError = new javax.swing.JLabel();
 
         lblNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombre.setText("Nombre");
@@ -340,20 +342,30 @@ public class panelClienteSubasta extends javax.swing.JPanel {
 
         input.addActionListener(this::inputActionPerformed);
 
+        lblError.setForeground(new java.awt.Color(255, 51, 51));
+        lblError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblError.setText("Error");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(input)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(input)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 6, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblPrecioActual, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -394,6 +406,8 @@ public class panelClienteSubasta extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -402,11 +416,20 @@ public class panelClienteSubasta extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.interfaz.mostrarPanel(usuarioSubastaPrincipal.codigosDefinidos.SELECCIONAR.getNombre());
+        this.interfaz.getDatos().desuscribirse(this.identificacion);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
-        // TODO add your handling code here:
+        this.lblError.setText("");
+        String texto = this.input.getText();
+        if (texto.isEmpty())
+            return;
+        int info = Integer.parseInt(texto);
+        boolean caso = this.interfaz.getDatos().mandarPedido(info, this.identificacion);
+        if (!caso) {
+            this.lblError.setText("menor que el minimo");
+        }
     }//GEN-LAST:event_inputActionPerformed
 
 
@@ -416,6 +439,7 @@ public class panelClienteSubasta extends javax.swing.JPanel {
     private javax.swing.JTextField input;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblEstatus;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblNombre;

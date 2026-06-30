@@ -29,4 +29,9 @@ public class ThreadSubastador extends BaseLadoCliente{
         this.datos.accionMensaje(msg);
     }
     
+    @Override
+    public void accionConexion() {
+       this.datos.setIdentificadorUsuario(this.getIdentificacion());
+    }
+    
 }

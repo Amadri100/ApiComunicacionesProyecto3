@@ -20,7 +20,7 @@ public class DatosSubasta extends Datos {
         VENDIDA,
         CANCELADA;
     }
-    private final int duracion = 5*60; //Segundo 5mins
+    private final int duracion = 40; //Segundo 5mins
     private Instant inicioCronometro = null;
     private Instant finalCronometro = null;
     private Producto producto;
