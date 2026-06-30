@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Subastas;
 
 import Observers.Datos;
@@ -20,7 +16,7 @@ public class DatosSubasta extends Datos {
         VENDIDA,
         CANCELADA;
     }
-    private final int duracion = 40; //Segundo 5mins
+    private final int duracion = 5*60; //Segundo 5mins
     private Instant inicioCronometro = null;
     private Instant finalCronometro = null;
     private Producto producto;

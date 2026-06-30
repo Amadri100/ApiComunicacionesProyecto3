@@ -41,19 +41,22 @@ public class Observable implements Serializable {
     
     public void agregarObservable(IObserver observador) {
         this.observables.add(observador);
-        System.out.println("Se Agrego un observer: " + observador.getId());
+        this.datos.setContadorObservadores((this.datos.getContadorObservadores() + 1));
     }
     
     public void eliminarObserver(IObserver observador) {
         int i = this.observables.indexOf(observador);
-        if (i != -1)
+        if (i != -1) {
             this.observables.remove(i);
+            this.datos.setContadorObservadores((this.datos.getContadorObservadores() - 1));
+        }
     }
     public boolean eliminarObserver(String identificacion) {
         boolean elimino = false;
         for (int i = 0; i < this.observables.size(); i++) {
             if (this.observables.get(i).getId().equals(identificacion)) {
                 this.observables.remove(i);
+                this.datos.setContadorObservadores((this.datos.getContadorObservadores() - 1));
                 elimino = true;
             }
         }

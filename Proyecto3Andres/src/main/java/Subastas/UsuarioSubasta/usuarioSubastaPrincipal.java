@@ -50,10 +50,17 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     
     
     public void eliminar(String identidad) {
+        if (datos == null) {return;}
         DatosSubasta datos = this.datos.getDatos().get(identidad);
         this.datos.getDatos().remove(identidad);
         String identificacionPanel = stringPaneles(datos);
+        JPanel panel =  this.paneles.get(identificacionPanel);
         this.paneles.remove(identificacionPanel);
+        this.Pantalla.remove(panel);
+        this.Pantalla.revalidate();
+        this.Pantalla.repaint();
+        panel = null;
+        actualizarSelector();
     }
     
     public boolean textoEsSeleccionar(String str)
@@ -86,15 +93,12 @@ public class usuarioSubastaPrincipal extends javax.swing.JFrame {
     }
     
     public void agregarDatosPanel(DatosSubasta datos) {
-        System.out.println("Se recibieron datos");
         String identificador = stringPaneles(datos);
            
         if(paneles.get(identificador) != null) {     
-            System.out.println("Existe");
             ((panelClienteSubasta)paneles.get(identificador)).actualizarDatos(datos);
         }
         else {    
-            System.out.println("Se crea uno nuevo");
             panelClienteSubasta panel = new panelClienteSubasta(this, datos);
             paneles.put(identificador, panel);
             Pantalla.add(panel, identificador);

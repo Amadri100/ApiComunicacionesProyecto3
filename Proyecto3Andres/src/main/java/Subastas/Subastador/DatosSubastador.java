@@ -106,9 +106,21 @@ public class DatosSubastador {
     
     public void terminarSubasta() {
         this.datos.setEstatus(DatosSubasta.estadoSubasta.VENDIDA);
+        this.datos.setPeticion(null);
+        MensajeDatos msgDatos = new MensajeDatos(this.identificadorUsuario, this.datos.getIdentificador(), this.datos);
+        this.servidor.mandarMensaje(msgDatos); // manda el estatus VENDIDA a los suscritos PRIMERO
+
         MensajeObservables msg = new MensajeObservables(this.identificadorUsuario, this.datos.getIdentificador(), this.datos.getNombre(), false);
-        this.servidor.mandarMensaje(msg);
+        this.servidor.mandarMensaje(msg); // luego destruye el observable
+        
         ((PanelSubasta)this.interfaz.getPanelEspecifico(InterfazSubastador.NombrePanelesST.Subasta)).darGanador();
+        
+        this.datos = null; // libera el estado local sin tocar this.servidor
+        if (this.reloj != null) {
+            this.reloj.setRunning(false);
+        }
+        this.reloj = null;
+        this.interfaz.mostrarPanel(InterfazSubastador.NombrePanelesST.DarDatos);
     }
     
     public void mandarDatos() {
@@ -123,11 +135,9 @@ public class DatosSubastador {
             case ConectarseServidor: /*{NO RECIBE}*/ break;
             case CrearObservable: /*{NO RECIBE}*/break;
             case MandarDatos: 
-                System.out.println("Recibe mensaje datos");
+                if(this.datos == null) { break; }
                 MensajeDatos msg1 = (MensajeDatos)msg;
-                System.out.println(msg1.getIDMandado() + " " + ((PeticionSubasta)msg1.getDatosDelMensaje().getPeticion())); 
                 if(msg1.permitidoPorUsuario()) {
-                     System.out.println("Detecta peticion");
                      PeticionSubasta peticion = (PeticionSubasta)msg1.getDatosDelMensaje().getPeticion();
                      accionPeticion(peticion);
                 }

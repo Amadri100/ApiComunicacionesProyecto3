@@ -61,7 +61,10 @@ public class panelClienteSubasta extends javax.swing.JPanel {
             String mensaje = this.interfaz.getDatos().mensaje(this.identificacion);
             if (!mensaje.equals("")) {
                 JOptionPane.showMessageDialog(this, mensaje);
+                
+                
                 this.interfaz.eliminar(this.identificacion);
+                this.interfaz.mostrarPanel(usuarioSubastaPrincipal.codigosDefinidos.SELECCIONAR.getNombre());
             }
         }
 
@@ -416,8 +419,10 @@ public class panelClienteSubasta extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.interfaz.mostrarPanel(usuarioSubastaPrincipal.codigosDefinidos.SELECCIONAR.getNombre());
+
         this.interfaz.getDatos().desuscribirse(this.identificacion);
+        this.interfaz.eliminar(this.identificacion); // ← eliminar primero
+        this.interfaz.mostrarPanel(usuarioSubastaPrincipal.codigosDefinidos.SELECCIONAR.getNombre());
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed

@@ -4,10 +4,7 @@ import java.awt.CardLayout;
 import java.util.HashMap;
 import javax.swing.JPanel;
 
-/**
- *
- * @author andre
- */
+ 
 public class InterfazSubastador extends javax.swing.JFrame {
     
     public enum NombrePanelesST {

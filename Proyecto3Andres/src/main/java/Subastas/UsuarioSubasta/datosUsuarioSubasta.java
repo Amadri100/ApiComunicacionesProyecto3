@@ -60,6 +60,33 @@ public class datosUsuarioSubasta {
         return mensaje;
     }
     
+     public void accionMensaje(Mensaje msg) {
+        switch(msg.getTipo()) {
+            case ConectarseServidor: /*{NO RECIBE}*/ break;
+            case CrearObservable: /*{NO RECIBE}*/break;
+            case MandarDatos:
+                MensajeDatos msg1 = (MensajeDatos)msg;
+                DatosSubasta datosMsg = (DatosSubasta)msg1.getDatosDelMensaje();
+                this.datos.put(datosMsg.getIdentificador(), datosMsg);
+                this.interfaz.agregarDatosPanel(datosMsg);
+                break;
+            case NotificacionUsurio:
+                if (identificadorUsuario.equals("NA")) { //Si no tiene ID la guarda //No deberia ssuceder
+                    MensajeNotificacion msg2 = (MensajeNotificacion)msg;
+                    this.identificadorUsuario = msg2.getIDObjetivo();  
+                }
+                break;
+            case Subscripciones: /*{NO RECIBE}*/break;
+            case TodosLosDatos: 
+                
+                MensajeTodosLosDatos msg3 = (MensajeTodosLosDatos)msg;
+                this.interfaz.actualizarPanelesSeleccion(obtenerListadoValidos(msg3.getDatos()));
+                
+                break;
+        }
+    }
+    
+    
     public boolean conectar() {
         if (servidor == null){
             try {
@@ -76,36 +103,6 @@ public class datosUsuarioSubasta {
         return false;
     }
     
-
-     
-    public void accionMensaje(Mensaje msg) {
-        switch(msg.getTipo()) {
-            case ConectarseServidor: /*{NO RECIBE}*/ break;
-            case CrearObservable: /*{NO RECIBE}*/break;
-            case MandarDatos:
-                MensajeDatos msg1 = (MensajeDatos)msg;
-                DatosSubasta datosMsg = (DatosSubasta)msg1.getDatosDelMensaje();
-                this.datos.put(datosMsg.getIdentificador(), datosMsg);
-                this.interfaz.agregarDatosPanel(datosMsg);
-                break;
-            case NotificacionUsurio:
-                if (identificadorUsuario.equals("NA")) { //Si no tiene ID la guarda //No deberia ssuceder
-                    System.out.println("Sucede");
-                    MensajeNotificacion msg2 = (MensajeNotificacion)msg;
-                    this.identificadorUsuario = msg2.getIDObjetivo();  
-                }
-                break;
-            case Subscripciones: /*{NO RECIBE}*/break;
-            case TodosLosDatos: 
-                
-                MensajeTodosLosDatos msg3 = (MensajeTodosLosDatos)msg;
-                this.interfaz.actualizarPanelesSeleccion(obtenerListadoValidos(msg3.getDatos()));
-                
-                break;
-        }
-        System.out.println("ID; " + this.identificadorUsuario);
-    }
-     
     
     
     public HashMap<String, DatosSubasta> obtenerListadoValidos(ArrayList<Datos> lista) {
@@ -131,7 +128,6 @@ public class datosUsuarioSubasta {
         DatosSubasta datosLoc = this.datos.get(idEvento);
         datosLoc.setPeticion(peticion);
         MensajeDatos msg = new MensajeDatos(this.identificadorUsuario, idEvento, datosLoc);
-        System.out.println(msg.getIDMandado() + " " + ((PeticionSubasta)msg.getDatosDelMensaje().getPeticion())); 
         this.servidor.mandarMensaje(msg);
         return true;
     }

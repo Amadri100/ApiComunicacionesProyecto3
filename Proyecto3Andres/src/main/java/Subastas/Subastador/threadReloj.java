@@ -17,7 +17,7 @@ public class threadReloj extends Thread{
     @Override
     public void run() {
         while (running) {
-            if (this.datos == null){
+            if (this.datos.getDatos() == null){
                 return;
             }
             int res = Instant.now().compareTo(this.datos.getDatos().getFinalCronometro());

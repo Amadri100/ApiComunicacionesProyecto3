@@ -146,7 +146,7 @@ public class PanelSubasta extends javax.swing.JPanel {
 
     public void darGanador() {
          JOptionPane.showMessageDialog(this, this.interfaz.getSubastador().textoFinal());
-         this.interfaz.limpiar(); 
+         //this.interfaz.limpiar(); 
     }
     
     public void mostrarImagen(ImagenSerializable imagen) {

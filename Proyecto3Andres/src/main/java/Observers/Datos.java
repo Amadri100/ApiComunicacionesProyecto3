@@ -9,6 +9,7 @@ public class Datos implements Serializable{
     private String Identificador;
     private Peticion peticion;
     private String nombre;
+    private int contadorObservadores = 0;
     private boolean enCurso = true; //Indica si se ejecuta: false -> ya no existe
 
     public Datos(String Identificador, Peticion peticion, String nombre) {
@@ -52,6 +53,14 @@ public class Datos implements Serializable{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getContadorObservadores() {
+        return contadorObservadores;
+    }
+
+    public void setContadorObservadores(int contadorObservadores) {
+        this.contadorObservadores = contadorObservadores;
     }
 
     
